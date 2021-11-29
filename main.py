@@ -20,8 +20,9 @@ def generate_privat(length):
     randint(1, ((1 << (length - 1)) - 1))
 
 
+
 def generate_public(P, d):
-    return multiply_by_elliptic_curve_order((P[0], P[0] ^ P[1]), d)
+    return multiply_by_elliptic_curve_order(negative_point(P), d)
 
 
 
