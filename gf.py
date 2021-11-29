@@ -19,23 +19,23 @@ def power(x, k):
         if k & 1 == 1:
             prod = multiplication(x, prod)
         x = multiplication(x, x)
-        k >>= 1
+        k = k >> 1
     return prod
 
 
 def inverse(x):
-	k =  (1 << m) - 2
+    k = (1 << m) - 2
     return power(x, k)
 
 
 
 def division(x, y):
-	return multiplication(x, inverse(y))
+    return multiplication(x, inverse(y))
 
 
 
 def multiplication(x, y):
-	mult = 0
+    mult = 0
     while x and y:
         if y & 1 == 1:
             mult ^= x
