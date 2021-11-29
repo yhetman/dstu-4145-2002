@@ -1,7 +1,7 @@
 #* ************************************************************************** *#
 #*                                                                            *#
 #*                                                                            *#
-#*   Makefile                                                                 *#
+#*   gf.py       	                                                          *#
 #*                                                                            *#
 #*   By: yhetman <yhetman@student.unit.ua>                                    *#
 #*                                                                            *#
@@ -10,45 +10,40 @@
 #*                                                                            *#
 #* ************************************************************************** *#
 
-SRCS =  
+from random import randint
+from consts import *
 
-SRCS_DIR = src/
+def power(x, k):
+    prod = 1
+    while k > 0:
+        if k & 1 == 1:
+            prod = multiplication(x, prod)
+        x = multiplication(x, x)
+        k >>= 1
+    return prod
 
-OBJ_DIR = obj/
 
-OBJ = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
+def inverse(x):
+	k =  (1 << m) - 2
+    return power(x, k)
 
-LIB_NAME = libdsa.a
 
-DSA = dsa
 
-FLAGS = -I includes -Wall -Wextra -Werror #-I ../../SHA256/includes/  -I /usr/include/openssl/
-DEBUG_FLAGS = -g3 -fsanitize=address
+def division(x, y):
+	return multiplication(x, inverse(y))
 
-DSA_MAIN = src/main.c 
 
-all: make_obj_dir $(DSA)
 
-$(OBJ_DIR)%.o: $(SRCS_DIR)%.c 
-	gcc $(FLAGS) -c $< -o $@
+def multiplication(x, y):
+	mult = 0
+    while x and y:
+        if y & 1 == 1:
+            mult ^= x
+        y >>= 1
+        temp = x >> (m - 1)
+        x = (x << 1) & prim_eleme
+        if temp == 1:
+            x ^= prim_eleme & polinominal
+    return mult
 
-$(LIB_NAME): $(OBJ)
-	ar -rv $(LIB_NAME) $^
-	ranlib $(LIB_NAME)
 
-$(DSA): $(LIB_NAME) $(DSA_MAIN)
-	gcc $(FLAGS) $(DSA_MAIN) $(LIB_NAME) -o $(DSA) #-lgmp -lssl -lcrypto libSHA256.a
-
-make_obj_dir:
-	mkdir -p $(OBJ_DIR)
-
-clean:
-	rm -rf $(OBJ_DIR)
-
-fclean: clean
-	rm -f $(DSA)
-	rm -f $(LIB_NAME)
-
-re: fclean all
-
-.PHONY: all clean flcean re debug
