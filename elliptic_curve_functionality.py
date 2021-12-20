@@ -1,15 +1,3 @@
-#* ************************************************************************** *#
-#*                                                                            *#
-#*                                                                            *#
-#*   elliptic_curve_functionality.py                                          *#
-#*                                                                            *#
-#*   By: yhetman <yhetman@student.unit.ua>                                    *#
-#*                                                                            *#
-#*   Created: 2021/11/29 21:49:25 by yhetman                                  *#
-#*   Updated: 2021/11/29 21:49:26 by yhetman                                  *#
-#*                                                                            *#
-#* ************************************************************************** *#
-
 from consts import *
 from gf import *
 
@@ -40,7 +28,7 @@ def sum_point_twice(p):
 
 
 
-def tr(x): 	# tr(x) - trace function
+def tr(x):  # tr(x) - trace function
     t = x
     if DEBUG: print("[DEBUG] : tr") 
     for _ in range(m - 1):
@@ -49,7 +37,7 @@ def tr(x): 	# tr(x) - trace function
 
 
 
-def htr(x):	# htr(x) - half-trace function
+def htr(x): # htr(x) - half-trace function
     t = x
     if DEBUG: print("[DEBUG] : htr") 
     for _ in range((m - 1) // 2):
@@ -58,7 +46,7 @@ def htr(x):	# htr(x) - half-trace function
 
 
 
-def equation_solution(u, w):	# solve the quadratic equation
+def equation_solution(u, w):    # solve the quadratic equation
     if DEBUG: print("[DEBUG] : equation_solution") 
     if u == 0: return (power(w, 1 << (m - 1)), 1)
     if w == 0: return (0, 2)
@@ -76,8 +64,9 @@ def random_point_generating():
     while True:
         u = randint(0, prim_eleme)
         w = (power(u, 3) ^ multiplication(A, multiplication(u, u))) ^ B
-        (z, k) = equation_solution(w, u)
+        (z, k) = equation_solution(u, w)
         if k > 0:
+            x,y = u,z
             return (u, z)
 
 
@@ -99,5 +88,9 @@ def elliptic_curve_base_point():
     while True:
         P = random_point_generating()
         R = multiply_by_elliptic_curve_order(P, n)
+        if DEBUG:
+            print('generated point')
+            print(R)
+            print(n - R[0], n - R[1])
         if R == O:
             return P

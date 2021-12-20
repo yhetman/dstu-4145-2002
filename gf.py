@@ -1,14 +1,3 @@
-#* ************************************************************************** *#
-#*                                                                            *#
-#*                                                                            *#
-#*   gf.py       	                                                          *#
-#*                                                                            *#
-#*   By: yhetman <yhetman@student.unit.ua>                                    *#
-#*                                                                            *#
-#*   Created: 2021/11/29 21:49:25 by yhetman                                  *#
-#*   Updated: 2021/11/29 21:49:26 by yhetman                                  *#
-#*                                                                            *#
-#* ************************************************************************** *#
 
 from random import randint
 from consts import *
@@ -24,7 +13,7 @@ def power(x, k):
 
 
 def inverse(x):
-    k = (1 << m) - 2
+    k = (1 << m) - 2 # заменить на константу!
     return power(x, k)
 
 
@@ -36,6 +25,7 @@ def division(x, y):
 
 def multiplication(x, y):
     mult = 0
+
     while x and y:
         if y & 1 == 1:
             mult ^= x
